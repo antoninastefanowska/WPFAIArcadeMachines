@@ -8,12 +8,13 @@ namespace SIProjekt
 {
     public class DaneWejsciowe
     {
-        public int LiczbaRund { get; set; }
+        public int LiczbaRund { get; set; } /* liczba możliwych zagrań na automatach */
         public int LiczbaAutomatow { get; set; }
-        public Automat[] Automaty { get; set; }
+        public Automat[] Automaty { get; set; } /* wszystkie automaty */
         
         public DaneWejsciowe()
         {
+            /* PRZYKŁADOWE DANE do testów (trzeba będzie zrobić wczytywanie z pliku */
             LiczbaRund = 10;
             LiczbaAutomatow = 6;
             Automaty = new Automat[LiczbaAutomatow];

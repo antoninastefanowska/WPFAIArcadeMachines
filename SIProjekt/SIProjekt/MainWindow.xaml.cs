@@ -23,11 +23,9 @@ namespace SIProjekt
         public MainWindow()
         {
             InitializeComponent();
-            Automat[] automaty = DaneWejsciowe.Instancja.Automaty;
-            //foreach (Automat automat in automaty)
-            //Console.WriteLine(automat.ID.ToString() + ' ' + automat.zagraj().ToString());
-            for (int i = 0; i < 200; i++)
-                Console.WriteLine(automaty[0].zagraj().ToString());
+            AlgorytmGenetyczny ag = new AlgorytmGenetyczny(5, 80, 50);
+            for (int i = 0; i < 20; i++)
+                ag.iteracja();
         }
     }
 }

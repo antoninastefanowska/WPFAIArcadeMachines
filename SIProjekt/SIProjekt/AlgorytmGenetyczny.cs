@@ -26,45 +26,83 @@ namespace SIProjekt
                 osobnik.losujChromosom();
                 Populacja.Add(osobnik);
             }
+            Populacja.Sort(porownaj);
             PrawdopodobienstwoKrzyzowania = prawdopodobienstwoKrzyzowania;
             PrawdopodobienstwoMutacji = prawdopodobienstwoMutacji;
         }
 
+        /* funkcja do sortowania listy osobników względem przystosowania */
+        public static int porownaj(Osobnik osobnik1, Osobnik osobnik2)
+        {
+            if (osobnik1.Przystosowanie == osobnik2.Przystosowanie)
+                return 0;
+            else if (osobnik1.Przystosowanie > osobnik2.Przystosowanie)
+                return -1;
+            else return 1;
+        }
+
+        /* jeden przebieg iteracji algorytmu genetycznego */
         public void iteracja()
         {
-            List<Osobnik> nowaPopulacja = new List<Osobnik>();
-            foreach(Osobnik osobnik1 in Populacja)
+            List<Osobnik> nowaPopulacja = new List<Osobnik>();          
+            //ustalPrawdopodobienstwa();
+            drukuj();
+            for (int i = 0; i < RozmiarPopulacji; i++)
             {
-                foreach(Osobnik osobnik2 in Populacja)
-                    
+                for (int j = 0; j < RozmiarPopulacji; j++)
+                    if (i != j && los(PrawdopodobienstwoKrzyzowania))
+                        Populacja.Add(krzyzowanie(Populacja.ElementAt(i), Populacja.ElementAt(j)));
+                if (los(PrawdopodobienstwoMutacji))
+                    Populacja.Add(mutacja(Populacja.ElementAt(i)));
             }
+            foreach (Osobnik osobnik in Populacja)
+                osobnik.wyliczPrzystosowanie();
+            Populacja.Sort(porownaj);
+            if (Populacja.Count > RozmiarPopulacji)
+                Populacja.RemoveRange(RozmiarPopulacji, Populacja.Count - RozmiarPopulacji);
         }
 
-        private void krzyzowanie(Osobnik osobnik1, Osobnik osobnik2)
+        /* wyświetla aktualną populację */
+        public void drukuj()
         {
-            int n = DaneWejsciowe.Instancja.LiczbaRund;
-            Automat temp;
-            for (int i = 0; i < n; i++)
-                if (czyWylosowany(PrawdopodobienstwoKrzyzowania))
-                {
-                    temp = osobnik1.Chromosom[i];
-                    osobnik1.Chromosom[i] = osobnik2.Chromosom[i];
-                    osobnik2.Chromosom[i] = temp;
-                }
+            foreach (Osobnik osobnik in Populacja)
+                Console.WriteLine(osobnik.ToString());
+            Console.WriteLine();
+            //Console.WriteLine(Populacja.ElementAt(0).ToString());
         }
 
-        private void mutacja(Osobnik osobnik)
+        private Osobnik krzyzowanie(Osobnik osobnik1, Osobnik osobnik2)
         {
+            Osobnik nowyOsobnik = new Osobnik();
             int n = DaneWejsciowe.Instancja.LiczbaRund;
             for (int i = 0; i < n; i++)
-                if (czyWylosowany(PrawdopodobienstwoMutacji))
-                    osobnik.Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(7)];
+            {
+                if (los(50))
+                    nowyOsobnik.Chromosom[i] = osobnik1.Chromosom[i];
+                else
+                    nowyOsobnik.Chromosom[i] = osobnik2.Chromosom[i];
+            }
+            return nowyOsobnik;
         }
 
+        private Osobnik mutacja(Osobnik osobnik)
+        {
+            Osobnik nowyOsobnik = new Osobnik();
+            int n = DaneWejsciowe.Instancja.LiczbaRund;
+            for (int i = 0; i < n; i++)
+            {
+                if (los(30))
+                    nowyOsobnik.Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(DaneWejsciowe.Instancja.LiczbaAutomatow)];
+                else
+                    nowyOsobnik.Chromosom[i] = osobnik.Chromosom[i];
+            }
+            return nowyOsobnik;
+        }
+
+        /*
         private void ustalPrawdopodobienstwa()
         {
             double p = 0.3, suma = 0;
-            Populacja.Sort(); //określić komparator na bazie przystosowania
             foreach (Osobnik osobnik in Populacja)
             {
                 osobnik.Prawdopodobienstwo = (int)(100 * p);
@@ -72,9 +110,10 @@ namespace SIProjekt
                 p = (1 - suma) * p;
                 if (p <= 0) return;
             }
-        }
+        } */
 
-        private bool czyWylosowany(int prawdopodobienstwo)
+        /* true wystapi z prawdopodobienstwem podanym w parametrze (w procentach) */
+        private bool los(int prawdopodobienstwo)
         {
             int los = rand.Next(100);
             if (los < prawdopodobienstwo)

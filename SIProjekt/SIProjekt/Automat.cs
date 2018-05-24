@@ -25,6 +25,7 @@ namespace SIProjekt
             Nagrody.Add(nagroda);
         }
 
+        /* ustala zakresy do losowania nagród */
         public void ustalZakresyNagrod()
         {
             int zakres1 = 0, zakres2 = 0;
@@ -37,10 +38,10 @@ namespace SIProjekt
             }
         }
 
+        /* zwraca wartość wygranej */
         public int zagraj()
         {
             int los = rand.Next(100);
-            Console.Write(los.ToString() + ' ');
             foreach (Nagroda nagroda in Nagrody)
             {
                 if (los >= nagroda.Zakres1 && los < nagroda.Zakres2)
