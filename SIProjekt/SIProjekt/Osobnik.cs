@@ -48,7 +48,7 @@ namespace SIProjekt
             string s = "";
             for (int i = 0; i < LiczbaRund; i++)
                 s += Chromosom[i].ID.ToString() + ' ';
-            s += "- " + Przystosowanie.ToString(); // + ' ' + Prawdopodobienstwo.ToString();
+            s += "- " + Przystosowanie.ToString() + ' ' + Prawdopodobienstwo.ToString();
             return s;
         }
     }

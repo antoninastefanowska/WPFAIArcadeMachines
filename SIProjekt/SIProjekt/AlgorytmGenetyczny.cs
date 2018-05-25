@@ -23,10 +23,12 @@ namespace SIProjekt
             for (int i = 0; i < RozmiarPopulacji; i++)
             {
                 Osobnik osobnik = new Osobnik();
-                osobnik.losujChromosom();
+                do osobnik.losujChromosom();
+                while (czyIstnieje(osobnik, Populacja));
                 Populacja.Add(osobnik);
             }
             Populacja.Sort(porownaj);
+            //ustalPrawdopodobienstwa(Populacja);
             PrawdopodobienstwoKrzyzowania = prawdopodobienstwoKrzyzowania;
             PrawdopodobienstwoMutacji = prawdopodobienstwoMutacji;
         }
@@ -44,22 +46,46 @@ namespace SIProjekt
         /* jeden przebieg iteracji algorytmu genetycznego */
         public void iteracja()
         {
-            List<Osobnik> nowaPopulacja = new List<Osobnik>();          
-            //ustalPrawdopodobienstwa();
+            List<Osobnik> nowaPopulacja = new List<Osobnik>();
+            Osobnik nowyOsobnik;
             drukuj();
-            for (int i = 0; i < RozmiarPopulacji; i++)
+            for (int i = 0; i < Populacja.Count; i++)
             {
-                for (int j = 0; j < RozmiarPopulacji; j++)
+                for (int j = 0; j < Populacja.Count; j++)
                     if (i != j && los(PrawdopodobienstwoKrzyzowania))
-                        Populacja.Add(krzyzowanie(Populacja.ElementAt(i), Populacja.ElementAt(j)));
+                    {
+                        nowyOsobnik = krzyzowanie(Populacja.ElementAt(i), Populacja.ElementAt(j));
+                        nowaPopulacja.Add(nowyOsobnik);
+                    }
                 if (los(PrawdopodobienstwoMutacji))
-                    Populacja.Add(mutacja(Populacja.ElementAt(i)));
+                {
+                    nowyOsobnik = mutacja(Populacja.ElementAt(i));
+                    nowaPopulacja.Add(nowyOsobnik);
+                }
             }
-            foreach (Osobnik osobnik in Populacja)
+            foreach (Osobnik osobnik in nowaPopulacja)
                 osobnik.wyliczPrzystosowanie();
-            Populacja.Sort(porownaj);
+            nowaPopulacja.Sort(porownaj);
+            //ustalPrawdopodobienstwa(nowaPopulacja);
+            Populacja = nowaPopulacja;
             if (Populacja.Count > RozmiarPopulacji)
                 Populacja.RemoveRange(RozmiarPopulacji, Populacja.Count - RozmiarPopulacji);
+
+            /*
+            ustalPrawdopodobienstwa(noweOsobniki);
+            Populacja.Clear();
+            foreach (Osobnik osobnik in noweOsobniki)
+            {
+                if (los(osobnik.Prawdopodobienstwo))
+                    Populacja.Add(osobnik);
+            }
+            */
+        }
+
+        /* zwraca najlepszego osobnika z aktualnej populacji */
+        public Osobnik najlepszyOsobnik()
+        {
+            return Populacja.ElementAt(0);
         }
 
         /* wyświetla aktualną populację */
@@ -98,19 +124,35 @@ namespace SIProjekt
             }
             return nowyOsobnik;
         }
-
-        /*
-        private void ustalPrawdopodobienstwa()
+        
+        /* do selekcji - lista w parametrze MUSI być już posortowana względem przystosowania */
+        private void ustalPrawdopodobienstwa(List<Osobnik> populacja)
         {
-            double p = 0.3, suma = 0;
-            foreach (Osobnik osobnik in Populacja)
+            double P = 0.7, suma = 0, p;
+            p = P;
+            foreach (Osobnik osobnik in populacja)
             {
                 osobnik.Prawdopodobienstwo = (int)(100 * p);
                 suma += p;
-                p = (1 - suma) * p;
+                p = (1 - suma) * P;
                 if (p <= 0) return;
             }
-        } */
+        }
+
+        /* sprawdza czy dany osobnik istnieje już w populacji */
+        private bool czyIstnieje(Osobnik osobnik, List<Osobnik> populacja)
+        {
+            int n = DaneWejsciowe.Instancja.LiczbaRund;
+            foreach (Osobnik osobnik2 in Populacja)
+            {
+                int i;
+                for (i = 0; i < n; i++)
+                    if (osobnik.Chromosom[i].ID != osobnik2.Chromosom[i].ID)
+                        break;
+                if (i == n) return true;
+            }
+            return false;
+        }
 
         /* true wystapi z prawdopodobienstwem podanym w parametrze (w procentach) */
         private bool los(int prawdopodobienstwo)
