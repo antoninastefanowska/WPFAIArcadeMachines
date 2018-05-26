@@ -27,28 +27,49 @@ namespace SIProjekt
                         automat.dodajNagrode(new Nagroda(1000, 20));
                         automat.dodajNagrode(new Nagroda(100, 70));
                         automat.dodajNagrode(new Nagroda(-300, 10));
+
+                        automat.dodajNagrode(new Nagroda(-500, 0));
+                        automat.dodajNagrode(new Nagroda(2000, 0));
                         break;
                     case 1:
                         automat.dodajNagrode(new Nagroda(500, 50));
                         automat.dodajNagrode(new Nagroda(300, 30));
                         automat.dodajNagrode(new Nagroda(-700, 15));
                         automat.dodajNagrode(new Nagroda(2000, 5));
+
+                        automat.dodajNagrode(new Nagroda(-1000, 0));
                         break;
                     case 2:
                         automat.dodajNagrode(new Nagroda(1500, 50));
                         automat.dodajNagrode(new Nagroda(-2000, 50));
+
+                        automat.dodajNagrode(new Nagroda(2000, 0));
+                        automat.dodajNagrode(new Nagroda(-3000, 0));
+                        automat.dodajNagrode(new Nagroda(0, 0));
                         break;
                     case 3:
                         automat.dodajNagrode(new Nagroda(100, 100));
+
+                        automat.dodajNagrode(new Nagroda(500, 0));
+                        automat.dodajNagrode(new Nagroda(-500, 0));
+                        automat.dodajNagrode(new Nagroda(1000, 0));
+                        automat.dodajNagrode(new Nagroda(100, 0));
                         break;
                     case 4:
                         automat.dodajNagrode(new Nagroda(-200, 20));
                         automat.dodajNagrode(new Nagroda(0, 75));
                         automat.dodajNagrode(new Nagroda(3000, 5));
+
+                        automat.dodajNagrode(new Nagroda(0, 0));
+                        automat.dodajNagrode(new Nagroda(-1000, 0));
                         break;
                     case 5:
                         automat.dodajNagrode(new Nagroda(500, 80));
                         automat.dodajNagrode(new Nagroda(-1000, 20));
+
+                        automat.dodajNagrode(new Nagroda(-1500, 0));
+                        automat.dodajNagrode(new Nagroda(-100, 0));
+                        automat.dodajNagrode(new Nagroda(3000, 0));
                         break;
                 }
                 automat.ustalZakresyNagrod();

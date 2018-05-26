@@ -46,20 +46,37 @@ namespace SIProjekt
         /* jeden przebieg iteracji algorytmu genetycznego */
         public void iteracja()
         {
-            List<Osobnik> nowaPopulacja = new List<Osobnik>();
-            Osobnik nowyOsobnik;
             drukuj();
-            for (int i = 0; i < Populacja.Count; i++)
+            List<Osobnik> nowaPopulacja = new List<Osobnik>(), turniej = new List<Osobnik>();
+            Osobnik nowyOsobnik;
+            
+            int q = 3, n;
+            while (Populacja.Count > 0)
             {
-                for (int j = 0; j < Populacja.Count; j++)
-                    if (i != j && los(PrawdopodobienstwoKrzyzowania))
+                for (int i = 0; i < q; i++)
+                {
+                    if (Populacja.Count == 0) break;
+                    int k = rand.Next(Populacja.Count);
+                    Osobnik osobnik = Populacja.ElementAt(k);
+                    turniej.Add(osobnik);
+                    Populacja.RemoveAt(k);
+                }
+                turniej.Sort(porownaj);
+                nowaPopulacja.Add(turniej.ElementAt(0));
+                turniej.Clear();
+            } 
+            n = nowaPopulacja.Count; 
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                    if (i != j)// && los(PrawdopodobienstwoKrzyzowania))
                     {
-                        nowyOsobnik = krzyzowanie(Populacja.ElementAt(i), Populacja.ElementAt(j));
+                        nowyOsobnik = krzyzowanie(nowaPopulacja.ElementAt(i), nowaPopulacja.ElementAt(j));
                         nowaPopulacja.Add(nowyOsobnik);
                     }
-                if (los(PrawdopodobienstwoMutacji))
+                //if (los(PrawdopodobienstwoMutacji))
                 {
-                    nowyOsobnik = mutacja(Populacja.ElementAt(i));
+                    nowyOsobnik = mutacja(nowaPopulacja.ElementAt(i));
                     nowaPopulacja.Add(nowyOsobnik);
                 }
             }
@@ -68,8 +85,8 @@ namespace SIProjekt
             nowaPopulacja.Sort(porownaj);
             //ustalPrawdopodobienstwa(nowaPopulacja);
             Populacja = nowaPopulacja;
-            if (Populacja.Count > RozmiarPopulacji)
-                Populacja.RemoveRange(RozmiarPopulacji, Populacja.Count - RozmiarPopulacji);
+            //if (Populacja.Count > RozmiarPopulacji)
+                //Populacja.RemoveRange(RozmiarPopulacji, Populacja.Count - RozmiarPopulacji);
 
             /*
             ustalPrawdopodobienstwa(noweOsobniki);
@@ -91,10 +108,10 @@ namespace SIProjekt
         /* wyświetla aktualną populację */
         public void drukuj()
         {
-            foreach (Osobnik osobnik in Populacja)
-                Console.WriteLine(osobnik.ToString());
-            Console.WriteLine();
-            //Console.WriteLine(Populacja.ElementAt(0).ToString());
+            //foreach (Osobnik osobnik in Populacja)
+                //Console.WriteLine(osobnik.ToString());
+           // Console.WriteLine();
+            Console.WriteLine(Populacja.ElementAt(0).ToString());
         }
 
         private Osobnik krzyzowanie(Osobnik osobnik1, Osobnik osobnik2)
@@ -117,7 +134,7 @@ namespace SIProjekt
             int n = DaneWejsciowe.Instancja.LiczbaRund;
             for (int i = 0; i < n; i++)
             {
-                if (los(30))
+                if (los(50))
                     nowyOsobnik.Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(DaneWejsciowe.Instancja.LiczbaAutomatow)];
                 else
                     nowyOsobnik.Chromosom[i] = osobnik.Chromosom[i];

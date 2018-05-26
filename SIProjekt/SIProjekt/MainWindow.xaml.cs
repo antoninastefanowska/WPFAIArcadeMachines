@@ -23,8 +23,9 @@ namespace SIProjekt
         public MainWindow()
         {
             InitializeComponent();
+            Console.WriteLine();
             AlgorytmGenetyczny ag = new AlgorytmGenetyczny(5, 80, 50);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 1000; i++)
                 ag.iteracja();
         }
     }

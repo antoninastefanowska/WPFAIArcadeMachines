@@ -24,6 +24,17 @@ namespace SIProjekt
             Prawdopodobienstwo = 0;
         }
 
+        public Osobnik(int n)
+        {
+            rand = new Random();
+            LiczbaRund = DaneWejsciowe.Instancja.LiczbaRund;
+            Chromosom = new Automat[LiczbaRund];
+            for (int i = 0; i < LiczbaRund; i++)
+                Chromosom[i] = DaneWejsciowe.Instancja.Automaty[n];
+            wyliczPrzystosowanie();
+            Prawdopodobienstwo = 0;
+        }
+
         /* generuje losowy chromosom */
         public void losujChromosom()
         {
@@ -40,6 +51,8 @@ namespace SIProjekt
                 if (Chromosom[i] == null) Console.WriteLine("null: " + i.ToString());
                 suma += Chromosom[i].zagraj();
             }
+            foreach (Automat automat in Chromosom)
+                automat.NumerNagrody = 0;
             Przystosowanie = suma;
         }
 
