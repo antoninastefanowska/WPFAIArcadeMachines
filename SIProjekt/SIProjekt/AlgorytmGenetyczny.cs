@@ -73,20 +73,24 @@ namespace SIProjekt
         private List<Osobnik> Turniej(int rozmiarTurnieju, List<Osobnik> populacja)
         {
             List<Osobnik> turniej = new List<Osobnik>(), populacjaRodzicielska = new List<Osobnik>();
-            while (populacja.Count > 0 || populacjaRodzicielska.Count >= MaksymalnyRozmiarPopulacji)
+            if (populacja.Count > rozmiarTurnieju)
             {
-                for (int i = 0; i < rozmiarTurnieju; i++)
+                while (populacja.Count > 0 && populacjaRodzicielska.Count < MaksymalnyRozmiarPopulacji)
                 {
-                    if (populacja.Count == 0) break;
-                    int k = rand.Next(Populacja.Count);
-                    Osobnik osobnik = Populacja.ElementAt(k);
-                    turniej.Add(osobnik);
-                    Populacja.RemoveAt(k);
+                    for (int i = 0; i < rozmiarTurnieju; i++)
+                    {
+                        if (populacja.Count == 0) break;
+                        int k = rand.Next(Populacja.Count);
+                        Osobnik osobnik = Populacja.ElementAt(k);
+                        turniej.Add(osobnik);
+                        populacja.RemoveAt(k);
+                    }
+                    populacjaRodzicielska.Add(turniej.Max());
+                    turniej.Clear();
                 }
-                populacjaRodzicielska.Add(turniej.Max());
-                turniej.Clear();
+                return populacjaRodzicielska;
             }
-            return populacjaRodzicielska;
+            else return populacja;
         }
 
         /* zwraca najlepszego osobnika z aktualnej populacji */
