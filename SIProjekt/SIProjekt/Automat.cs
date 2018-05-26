@@ -19,13 +19,13 @@ namespace SIProjekt
             NumerAktualnejNagrody = 0;
         }
 
-        public void dodajNagrode(int nagroda)
+        public void DodajNagrode(int nagroda)
         {
             Nagrody.Add(nagroda);
         }
 
         /* zwraca wartość wygranej */
-        public int zagraj()
+        public int Zagraj()
         {
             int k;
             k = NumerAktualnejNagrody;

@@ -32,20 +32,20 @@ namespace SIProjekt
         }
 
         /* generuje losowy chromosom */
-        public void losujChromosom()
+        public void LosujChromosom()
         {
             int n = DaneWejsciowe.Instancja.LiczbaRund, k = DaneWejsciowe.Instancja.LiczbaAutomatow;
             for (int i = 0; i < n; i++)
                 Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(k)];
-            wyliczPrzystosowanie();
+            WyliczPrzystosowanie();
         }
         
         /* gra po kolei na każdym automacie według sekwencji */
-        public void wyliczPrzystosowanie()
+        public void WyliczPrzystosowanie()
         {
             int suma = 0, n = DaneWejsciowe.Instancja.LiczbaRund;
             for (int i = 0; i < n; i++)
-                suma += Chromosom[i].zagraj();
+                suma += Chromosom[i].Zagraj();
             foreach (Automat automat in Chromosom)
                 automat.NumerAktualnejNagrody = 0; // zresetowanie stanu automatów
             Przystosowanie = suma;

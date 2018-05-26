@@ -24,46 +24,46 @@ namespace SIProjekt
                 switch (i)
                 {
                     case 0:
-                        automat.dodajNagrode(1000);
-                        automat.dodajNagrode(100);
-                        automat.dodajNagrode(-300);
-                        automat.dodajNagrode(-500);
-                        automat.dodajNagrode(2000);
+                        automat.DodajNagrode(1000);
+                        automat.DodajNagrode(100);
+                        automat.DodajNagrode(-300);
+                        automat.DodajNagrode(-500);
+                        automat.DodajNagrode(2000);
                         break;
                     case 1:
-                        automat.dodajNagrode(500);
-                        automat.dodajNagrode(300);
-                        automat.dodajNagrode(-700);
-                        automat.dodajNagrode(2000);
-                        automat.dodajNagrode(-1000);
+                        automat.DodajNagrode(500);
+                        automat.DodajNagrode(300);
+                        automat.DodajNagrode(-700);
+                        automat.DodajNagrode(2000);
+                        automat.DodajNagrode(-1000);
                         break;
                     case 2:
-                        automat.dodajNagrode(1500);
-                        automat.dodajNagrode(-2000);
-                        automat.dodajNagrode(2000);
-                        automat.dodajNagrode(-3000);
-                        automat.dodajNagrode(0);
+                        automat.DodajNagrode(1500);
+                        automat.DodajNagrode(-2000);
+                        automat.DodajNagrode(2000);
+                        automat.DodajNagrode(-3000);
+                        automat.DodajNagrode(0);
                         break;
                     case 3:
-                        automat.dodajNagrode(100);
-                        automat.dodajNagrode(500);
-                        automat.dodajNagrode(-500);
-                        automat.dodajNagrode(1000);
-                        automat.dodajNagrode(100);
+                        automat.DodajNagrode(100);
+                        automat.DodajNagrode(500);
+                        automat.DodajNagrode(-500);
+                        automat.DodajNagrode(1000);
+                        automat.DodajNagrode(100);
                         break;
                     case 4:
-                        automat.dodajNagrode(-200);
-                        automat.dodajNagrode(0);
-                        automat.dodajNagrode(3000);
-                        automat.dodajNagrode(0);
-                        automat.dodajNagrode(-1000);
+                        automat.DodajNagrode(-200);
+                        automat.DodajNagrode(0);
+                        automat.DodajNagrode(3000);
+                        automat.DodajNagrode(0);
+                        automat.DodajNagrode(-1000);
                         break;
                     case 5:
-                        automat.dodajNagrode(500);
-                        automat.dodajNagrode(-1000);
-                        automat.dodajNagrode(-1500);
-                        automat.dodajNagrode(-100);
-                        automat.dodajNagrode(3000);
+                        automat.DodajNagrode(500);
+                        automat.DodajNagrode(-1000);
+                        automat.DodajNagrode(-1500);
+                        automat.DodajNagrode(-100);
+                        automat.DodajNagrode(3000);
                         break;
                 }
                 Automaty[i] = automat;

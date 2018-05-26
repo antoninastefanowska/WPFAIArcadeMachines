@@ -25,7 +25,10 @@ namespace SIProjekt
             InitializeComponent();
             AlgorytmGenetyczny ag = new AlgorytmGenetyczny(5, 100, 2, 80, 10);
             for (int i = 0; i < 500; i++)
-                ag.iteracja();
+            {
+                ag.Iteracja();
+                Console.WriteLine(ag.NajlepszyOsobnik().ToString());
+            }
         }
     }
 }

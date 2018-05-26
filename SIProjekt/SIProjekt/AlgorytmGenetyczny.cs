@@ -27,8 +27,8 @@ namespace SIProjekt
             for (int i = 0; i < RozmiarPopulacjiPoczatkowej; i++)
             {
                 Osobnik osobnik = new Osobnik();
-                do osobnik.losujChromosom(); /* losuje populację początkową */
-                while (czyIstnieje(osobnik, Populacja));
+                do osobnik.LosujChromosom(); /* losuje populację początkową */
+                while (CzyIstnieje(osobnik, Populacja));
                 Populacja.Add(osobnik);
             }
             PrawdopodobienstwoKrzyzowania = prawdopodobienstwoKrzyzowania;
@@ -36,42 +36,41 @@ namespace SIProjekt
         }
 
         /* jeden przebieg iteracji algorytmu genetycznego */
-        public void iteracja()
+        public void Iteracja()
         {
-            drukuj();
             List<Osobnik> nowaPopulacja = new List<Osobnik>(), populacjaRodzicielska;
             Osobnik nowyOsobnik;
 
-            populacjaRodzicielska = turniej(RozmiarTurnieju, Populacja); // wyselekcjonowanie populacji rodzicielskiej metodą turniejową
+            populacjaRodzicielska = Turniej(RozmiarTurnieju, Populacja); // wyselekcjonowanie populacji rodzicielskiej metodą turniejową
             for (int i = 0; i < populacjaRodzicielska.Count; i++)
             {
-                if (los(PrawdopodobienstwoKrzyzowania))
+                if (Los(PrawdopodobienstwoKrzyzowania))
                 {
                     for (int j = 0; j < populacjaRodzicielska.Count; j++)
                     {
                         if (i != j)
                         {
-                            nowyOsobnik = krzyzowanie(populacjaRodzicielska.ElementAt(i), populacjaRodzicielska.ElementAt(j));
+                            nowyOsobnik = Krzyzowanie(populacjaRodzicielska.ElementAt(i), populacjaRodzicielska.ElementAt(j));
                             nowaPopulacja.Add(nowyOsobnik);
                         }
                         if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
                     }
                 }
                 if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
-                if (los(PrawdopodobienstwoMutacji))
+                if (Los(PrawdopodobienstwoMutacji))
                 {
-                    nowyOsobnik = mutacja(populacjaRodzicielska.ElementAt(i));
+                    nowyOsobnik = Mutacja(populacjaRodzicielska.ElementAt(i));
                     nowaPopulacja.Add(nowyOsobnik);
                 }
             }
             nowaPopulacja.Add(populacjaRodzicielska.Max()); // przeniesienie najlepszego osobnika z populacji rodzicielskiej do nowej populacji
             foreach (Osobnik osobnik in nowaPopulacja)
-                osobnik.wyliczPrzystosowanie();
+                osobnik.WyliczPrzystosowanie();
             Populacja = nowaPopulacja;
         }
 
         /* selekcja turniejowa */
-        private List<Osobnik> turniej(int rozmiarTurnieju, List<Osobnik> populacja)
+        private List<Osobnik> Turniej(int rozmiarTurnieju, List<Osobnik> populacja)
         {
             List<Osobnik> turniej = new List<Osobnik>(), populacjaRodzicielska = new List<Osobnik>();
             while (populacja.Count > 0 || populacjaRodzicielska.Count >= MaksymalnyRozmiarPopulacji)
@@ -91,24 +90,19 @@ namespace SIProjekt
         }
 
         /* zwraca najlepszego osobnika z aktualnej populacji */
-        public Osobnik najlepszyOsobnik()
+        public Osobnik NajlepszyOsobnik()
         {
             return Populacja.Max();
         }
-        
-        public void drukuj()
-        {
-            Console.WriteLine(najlepszyOsobnik().ToString());
-        }
 
         /* krzyżowanie jednostajne */
-        private Osobnik krzyzowanie(Osobnik osobnik1, Osobnik osobnik2)
+        private Osobnik Krzyzowanie(Osobnik osobnik1, Osobnik osobnik2)
         {
             Osobnik nowyOsobnik = new Osobnik();
             int n = DaneWejsciowe.Instancja.LiczbaRund;
             for (int i = 0; i < n; i++)
             {
-                if (los(50)) // wymiana genu nastąpi z prawdopodobieństwem 50%
+                if (Los(50)) // wymiana genu nastąpi z prawdopodobieństwem 50%
                     nowyOsobnik.Chromosom[i] = osobnik1.Chromosom[i];
                 else
                     nowyOsobnik.Chromosom[i] = osobnik2.Chromosom[i];
@@ -116,14 +110,14 @@ namespace SIProjekt
             return nowyOsobnik;
         }
 
-        private Osobnik mutacja(Osobnik osobnik)
+        private Osobnik Mutacja(Osobnik osobnik)
         {
             Osobnik nowyOsobnik = new Osobnik();
             int n = DaneWejsciowe.Instancja.LiczbaRund, k = DaneWejsciowe.Instancja.LiczbaAutomatow;
             for (int i = 0; i < n; i++)
             {
-                if (los(50)) // zmutowanie danego genu nastąpi z prawdopodobieństwem 50%
-                    nowyOsobnik.Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(k)]; // gen zostaje podmieniony na wylosowy
+                if (Los(50)) // zmutowanie danego genu nastąpi z prawdopodobieństwem 50%
+                    nowyOsobnik.Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(k)]; // gen zostaje podmieniony na wylosowany
                 else
                     nowyOsobnik.Chromosom[i] = osobnik.Chromosom[i];
             }
@@ -131,7 +125,7 @@ namespace SIProjekt
         }
 
         /* sprawdza czy dany osobnik istnieje już w populacji */
-        private bool czyIstnieje(Osobnik osobnik, List<Osobnik> populacja)
+        private bool CzyIstnieje(Osobnik osobnik, List<Osobnik> populacja)
         {
             int n = DaneWejsciowe.Instancja.LiczbaRund;
             foreach (Osobnik osobnik2 in Populacja)
@@ -146,7 +140,7 @@ namespace SIProjekt
         }
 
         /* true wystapi z prawdopodobienstwem podanym w parametrze (w procentach) */
-        private bool los(int prawdopodobienstwo)
+        private bool Los(int prawdopodobienstwo)
         {
             int los = rand.Next(100);
             if (los < prawdopodobienstwo)
