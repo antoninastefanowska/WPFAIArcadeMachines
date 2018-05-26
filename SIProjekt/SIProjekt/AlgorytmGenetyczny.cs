@@ -10,17 +10,19 @@ namespace SIProjekt
     {
         public List<Osobnik> Populacja { get; set; }
         public int RozmiarPopulacjiPoczatkowej { get; set; }
+        public int MaksymalnyRozmiarPopulacji { get; set; }
         public int RozmiarTurnieju { get; set; }
         public int PrawdopodobienstwoKrzyzowania { get; set; } /* w procentach */
         public int PrawdopodobienstwoMutacji { get; set; } /* w procentach */
 
         private Random rand;
 
-        public AlgorytmGenetyczny(int rozmiarPopulacjiPoczatkowej, int rozmiarTurnieju, int prawdopodobienstwoKrzyzowania, int prawdopodobienstwoMutacji)
+        public AlgorytmGenetyczny(int rozmiarPopulacjiPoczatkowej, int maksymalnyRozmiarPopulacji, int rozmiarTurnieju, int prawdopodobienstwoKrzyzowania, int prawdopodobienstwoMutacji)
         {
             rand = new Random();
             RozmiarPopulacjiPoczatkowej = rozmiarPopulacjiPoczatkowej;
             RozmiarTurnieju = rozmiarTurnieju;
+            MaksymalnyRozmiarPopulacji = maksymalnyRozmiarPopulacji;
             Populacja = new List<Osobnik>();
             for (int i = 0; i < RozmiarPopulacjiPoczatkowej; i++)
             {
@@ -46,12 +48,16 @@ namespace SIProjekt
                 if (los(PrawdopodobienstwoKrzyzowania))
                 {
                     for (int j = 0; j < populacjaRodzicielska.Count; j++)
+                    {
                         if (i != j)
                         {
                             nowyOsobnik = krzyzowanie(populacjaRodzicielska.ElementAt(i), populacjaRodzicielska.ElementAt(j));
                             nowaPopulacja.Add(nowyOsobnik);
                         }
+                        if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
+                    }
                 }
+                if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
                 if (los(PrawdopodobienstwoMutacji))
                 {
                     nowyOsobnik = mutacja(populacjaRodzicielska.ElementAt(i));
@@ -68,7 +74,7 @@ namespace SIProjekt
         private List<Osobnik> turniej(int rozmiarTurnieju, List<Osobnik> populacja)
         {
             List<Osobnik> turniej = new List<Osobnik>(), populacjaRodzicielska = new List<Osobnik>();
-            while (populacja.Count > 0)
+            while (populacja.Count > 0 || populacjaRodzicielska.Count >= MaksymalnyRozmiarPopulacji)
             {
                 for (int i = 0; i < rozmiarTurnieju; i++)
                 {
