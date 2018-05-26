@@ -72,7 +72,7 @@ namespace SIProjekt
             {
                 for (int i = 0; i < rozmiarTurnieju; i++)
                 {
-                    if (Populacja.Count == 0) break;
+                    if (populacja.Count == 0) break;
                     int k = rand.Next(Populacja.Count);
                     Osobnik osobnik = Populacja.ElementAt(k);
                     turniej.Add(osobnik);
