@@ -12,17 +12,19 @@ namespace SIProjekt
         public int RozmiarPopulacjiPoczatkowej { get; set; }
         public int MaksymalnyRozmiarPopulacji { get; set; }
         public int RozmiarTurnieju { get; set; }
+        public int Elitaryzm { get; set; }
         public int PrawdopodobienstwoKrzyzowania { get; set; } /* w procentach */
         public int PrawdopodobienstwoMutacji { get; set; } /* w procentach */
 
         private Random rand;
 
-        public AlgorytmGenetyczny(int rozmiarPopulacjiPoczatkowej, int maksymalnyRozmiarPopulacji, int rozmiarTurnieju, int prawdopodobienstwoKrzyzowania, int prawdopodobienstwoMutacji)
+        public AlgorytmGenetyczny(int rozmiarPopulacjiPoczatkowej, int maksymalnyRozmiarPopulacji, int elitaryzm, int rozmiarTurnieju, int prawdopodobienstwoKrzyzowania, int prawdopodobienstwoMutacji)
         {
             rand = new Random();
             RozmiarPopulacjiPoczatkowej = rozmiarPopulacjiPoczatkowej;
             RozmiarTurnieju = rozmiarTurnieju;
             MaksymalnyRozmiarPopulacji = maksymalnyRozmiarPopulacji;
+            Elitaryzm = elitaryzm;
             Populacja = new List<Osobnik>();
             for (int i = 0; i < RozmiarPopulacjiPoczatkowej; i++)
             {
@@ -63,7 +65,12 @@ namespace SIProjekt
                     nowaPopulacja.Add(nowyOsobnik);
                 }
             }
-            nowaPopulacja.Add(populacjaRodzicielska.Max()); // przeniesienie najlepszego osobnika z populacji rodzicielskiej do nowej populacji
+            for (int i = 0; i < Elitaryzm; i++)
+            {
+                Osobnik osobnik = populacjaRodzicielska.Max();
+                nowaPopulacja.Add(osobnik); // przeniesienie najlepszego osobnika z populacji rodzicielskiej do nowej populacji
+                populacjaRodzicielska.Remove(osobnik);
+            }
             foreach (Osobnik osobnik in nowaPopulacja)
                 osobnik.WyliczPrzystosowanie();
             Populacja = nowaPopulacja;

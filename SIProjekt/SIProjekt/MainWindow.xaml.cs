@@ -23,7 +23,7 @@ namespace SIProjekt
         public MainWindow()
         {
             InitializeComponent();
-            AlgorytmGenetyczny ag = new AlgorytmGenetyczny(5, 100, 3, 80, 10);
+            AlgorytmGenetyczny ag = new AlgorytmGenetyczny(5, 100, 1, 3, 80, 10);
             for (int i = 0; i < 2000; i++)
             {
                 ag.Iteracja();
