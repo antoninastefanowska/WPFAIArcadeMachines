@@ -8,52 +8,69 @@ namespace SIProjekt
 {
     public class AlgorytmGenetyczny
     {
-        public int RozmiarPopulacji { get; set; }
         public List<Osobnik> Populacja { get; set; }
-        public int PrawdopodobienstwoKrzyzowania { get; set; }
-        public int PrawdopodobienstwoMutacji { get; set; }
+        public int RozmiarPopulacjiPoczatkowej { get; set; }
+        public int RozmiarTurnieju { get; set; }
+        public int PrawdopodobienstwoKrzyzowania { get; set; } /* w procentach */
+        public int PrawdopodobienstwoMutacji { get; set; } /* w procentach */
 
         private Random rand;
 
-        public AlgorytmGenetyczny(int rozmiarPopulacji, int prawdopodobienstwoKrzyzowania, int prawdopodobienstwoMutacji)
+        public AlgorytmGenetyczny(int rozmiarPopulacjiPoczatkowej, int rozmiarTurnieju, int prawdopodobienstwoKrzyzowania, int prawdopodobienstwoMutacji)
         {
             rand = new Random();
-            RozmiarPopulacji = rozmiarPopulacji;
-            Populacja = new List<Osobnik>(RozmiarPopulacji);
-            for (int i = 0; i < RozmiarPopulacji; i++)
+            RozmiarPopulacjiPoczatkowej = rozmiarPopulacjiPoczatkowej;
+            RozmiarTurnieju = rozmiarTurnieju;
+            Populacja = new List<Osobnik>();
+            for (int i = 0; i < RozmiarPopulacjiPoczatkowej; i++)
             {
                 Osobnik osobnik = new Osobnik();
-                do osobnik.losujChromosom();
+                do osobnik.losujChromosom(); /* losuje populację początkową */
                 while (czyIstnieje(osobnik, Populacja));
                 Populacja.Add(osobnik);
             }
-            Populacja.Sort(porownaj);
-            //ustalPrawdopodobienstwa(Populacja);
             PrawdopodobienstwoKrzyzowania = prawdopodobienstwoKrzyzowania;
             PrawdopodobienstwoMutacji = prawdopodobienstwoMutacji;
-        }
-
-        /* funkcja do sortowania listy osobników względem przystosowania */
-        public static int porownaj(Osobnik osobnik1, Osobnik osobnik2)
-        {
-            if (osobnik1.Przystosowanie == osobnik2.Przystosowanie)
-                return 0;
-            else if (osobnik1.Przystosowanie > osobnik2.Przystosowanie)
-                return -1;
-            else return 1;
         }
 
         /* jeden przebieg iteracji algorytmu genetycznego */
         public void iteracja()
         {
             drukuj();
-            List<Osobnik> nowaPopulacja = new List<Osobnik>(), turniej = new List<Osobnik>();
+            List<Osobnik> nowaPopulacja = new List<Osobnik>(), populacjaRodzicielska;
             Osobnik nowyOsobnik;
-            
-            int q = 3, n;
-            while (Populacja.Count > 0)
+
+            populacjaRodzicielska = turniej(RozmiarTurnieju, Populacja); // wyselekcjonowanie populacji rodzicielskiej metodą turniejową
+            for (int i = 0; i < populacjaRodzicielska.Count; i++)
             {
-                for (int i = 0; i < q; i++)
+                if (los(PrawdopodobienstwoKrzyzowania))
+                {
+                    for (int j = 0; j < populacjaRodzicielska.Count; j++)
+                        if (i != j)
+                        {
+                            nowyOsobnik = krzyzowanie(populacjaRodzicielska.ElementAt(i), populacjaRodzicielska.ElementAt(j));
+                            nowaPopulacja.Add(nowyOsobnik);
+                        }
+                }
+                if (los(PrawdopodobienstwoMutacji))
+                {
+                    nowyOsobnik = mutacja(populacjaRodzicielska.ElementAt(i));
+                    nowaPopulacja.Add(nowyOsobnik);
+                }
+            }
+            nowaPopulacja.Add(populacjaRodzicielska.Max()); // przeniesienie najlepszego osobnika z populacji rodzicielskiej do nowej populacji
+            foreach (Osobnik osobnik in nowaPopulacja)
+                osobnik.wyliczPrzystosowanie();
+            Populacja = nowaPopulacja;
+        }
+
+        /* selekcja turniejowa */
+        private List<Osobnik> turniej(int rozmiarTurnieju, List<Osobnik> populacja)
+        {
+            List<Osobnik> turniej = new List<Osobnik>(), populacjaRodzicielska = new List<Osobnik>();
+            while (populacja.Count > 0)
+            {
+                for (int i = 0; i < rozmiarTurnieju; i++)
                 {
                     if (Populacja.Count == 0) break;
                     int k = rand.Next(Populacja.Count);
@@ -61,66 +78,31 @@ namespace SIProjekt
                     turniej.Add(osobnik);
                     Populacja.RemoveAt(k);
                 }
-                turniej.Sort(porownaj);
-                nowaPopulacja.Add(turniej.ElementAt(0));
+                populacjaRodzicielska.Add(turniej.Max());
                 turniej.Clear();
-            } 
-            n = nowaPopulacja.Count; 
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < n; j++)
-                    if (i != j)// && los(PrawdopodobienstwoKrzyzowania))
-                    {
-                        nowyOsobnik = krzyzowanie(nowaPopulacja.ElementAt(i), nowaPopulacja.ElementAt(j));
-                        nowaPopulacja.Add(nowyOsobnik);
-                    }
-                //if (los(PrawdopodobienstwoMutacji))
-                {
-                    nowyOsobnik = mutacja(nowaPopulacja.ElementAt(i));
-                    nowaPopulacja.Add(nowyOsobnik);
-                }
             }
-            foreach (Osobnik osobnik in nowaPopulacja)
-                osobnik.wyliczPrzystosowanie();
-            nowaPopulacja.Sort(porownaj);
-            //ustalPrawdopodobienstwa(nowaPopulacja);
-            Populacja = nowaPopulacja;
-            //if (Populacja.Count > RozmiarPopulacji)
-                //Populacja.RemoveRange(RozmiarPopulacji, Populacja.Count - RozmiarPopulacji);
-
-            /*
-            ustalPrawdopodobienstwa(noweOsobniki);
-            Populacja.Clear();
-            foreach (Osobnik osobnik in noweOsobniki)
-            {
-                if (los(osobnik.Prawdopodobienstwo))
-                    Populacja.Add(osobnik);
-            }
-            */
+            return populacjaRodzicielska;
         }
 
         /* zwraca najlepszego osobnika z aktualnej populacji */
         public Osobnik najlepszyOsobnik()
         {
-            return Populacja.ElementAt(0);
+            return Populacja.Max();
         }
-
-        /* wyświetla aktualną populację */
+        
         public void drukuj()
         {
-            //foreach (Osobnik osobnik in Populacja)
-                //Console.WriteLine(osobnik.ToString());
-           // Console.WriteLine();
-            Console.WriteLine(Populacja.ElementAt(0).ToString());
+            Console.WriteLine(najlepszyOsobnik().ToString());
         }
 
+        /* krzyżowanie jednostajne */
         private Osobnik krzyzowanie(Osobnik osobnik1, Osobnik osobnik2)
         {
             Osobnik nowyOsobnik = new Osobnik();
             int n = DaneWejsciowe.Instancja.LiczbaRund;
             for (int i = 0; i < n; i++)
             {
-                if (los(50))
+                if (los(50)) // wymiana genu nastąpi z prawdopodobieństwem 50%
                     nowyOsobnik.Chromosom[i] = osobnik1.Chromosom[i];
                 else
                     nowyOsobnik.Chromosom[i] = osobnik2.Chromosom[i];
@@ -131,29 +113,15 @@ namespace SIProjekt
         private Osobnik mutacja(Osobnik osobnik)
         {
             Osobnik nowyOsobnik = new Osobnik();
-            int n = DaneWejsciowe.Instancja.LiczbaRund;
+            int n = DaneWejsciowe.Instancja.LiczbaRund, k = DaneWejsciowe.Instancja.LiczbaAutomatow;
             for (int i = 0; i < n; i++)
             {
-                if (los(50))
-                    nowyOsobnik.Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(DaneWejsciowe.Instancja.LiczbaAutomatow)];
+                if (los(50)) // zmutowanie danego genu nastąpi z prawdopodobieństwem 50%
+                    nowyOsobnik.Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(k)]; // gen zostaje podmieniony na wylosowy
                 else
                     nowyOsobnik.Chromosom[i] = osobnik.Chromosom[i];
             }
             return nowyOsobnik;
-        }
-        
-        /* do selekcji - lista w parametrze MUSI być już posortowana względem przystosowania */
-        private void ustalPrawdopodobienstwa(List<Osobnik> populacja)
-        {
-            double P = 0.7, suma = 0, p;
-            p = P;
-            foreach (Osobnik osobnik in populacja)
-            {
-                osobnik.Prawdopodobienstwo = (int)(100 * p);
-                suma += p;
-                p = (1 - suma) * P;
-                if (p <= 0) return;
-            }
         }
 
         /* sprawdza czy dany osobnik istnieje już w populacji */

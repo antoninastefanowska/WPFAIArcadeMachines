@@ -14,7 +14,7 @@ namespace SIProjekt
         
         public DaneWejsciowe()
         {
-            /* PRZYKŁADOWE DANE do testów (trzeba będzie zrobić wczytywanie z pliku */
+            /* przykładowe dane do testów (trzeba będzie zrobić wczytywanie z pliku) */
             LiczbaRund = 10;
             LiczbaAutomatow = 6;
             Automaty = new Automat[LiczbaAutomatow];
@@ -24,55 +24,48 @@ namespace SIProjekt
                 switch (i)
                 {
                     case 0:
-                        automat.dodajNagrode(new Nagroda(1000, 20));
-                        automat.dodajNagrode(new Nagroda(100, 70));
-                        automat.dodajNagrode(new Nagroda(-300, 10));
-
-                        automat.dodajNagrode(new Nagroda(-500, 0));
-                        automat.dodajNagrode(new Nagroda(2000, 0));
+                        automat.dodajNagrode(1000);
+                        automat.dodajNagrode(100);
+                        automat.dodajNagrode(-300);
+                        automat.dodajNagrode(-500);
+                        automat.dodajNagrode(2000);
                         break;
                     case 1:
-                        automat.dodajNagrode(new Nagroda(500, 50));
-                        automat.dodajNagrode(new Nagroda(300, 30));
-                        automat.dodajNagrode(new Nagroda(-700, 15));
-                        automat.dodajNagrode(new Nagroda(2000, 5));
-
-                        automat.dodajNagrode(new Nagroda(-1000, 0));
+                        automat.dodajNagrode(500);
+                        automat.dodajNagrode(300);
+                        automat.dodajNagrode(-700);
+                        automat.dodajNagrode(2000);
+                        automat.dodajNagrode(-1000);
                         break;
                     case 2:
-                        automat.dodajNagrode(new Nagroda(1500, 50));
-                        automat.dodajNagrode(new Nagroda(-2000, 50));
-
-                        automat.dodajNagrode(new Nagroda(2000, 0));
-                        automat.dodajNagrode(new Nagroda(-3000, 0));
-                        automat.dodajNagrode(new Nagroda(0, 0));
+                        automat.dodajNagrode(1500);
+                        automat.dodajNagrode(-2000);
+                        automat.dodajNagrode(2000);
+                        automat.dodajNagrode(-3000);
+                        automat.dodajNagrode(0);
                         break;
                     case 3:
-                        automat.dodajNagrode(new Nagroda(100, 100));
-
-                        automat.dodajNagrode(new Nagroda(500, 0));
-                        automat.dodajNagrode(new Nagroda(-500, 0));
-                        automat.dodajNagrode(new Nagroda(1000, 0));
-                        automat.dodajNagrode(new Nagroda(100, 0));
+                        automat.dodajNagrode(100);
+                        automat.dodajNagrode(500);
+                        automat.dodajNagrode(-500);
+                        automat.dodajNagrode(1000);
+                        automat.dodajNagrode(100);
                         break;
                     case 4:
-                        automat.dodajNagrode(new Nagroda(-200, 20));
-                        automat.dodajNagrode(new Nagroda(0, 75));
-                        automat.dodajNagrode(new Nagroda(3000, 5));
-
-                        automat.dodajNagrode(new Nagroda(0, 0));
-                        automat.dodajNagrode(new Nagroda(-1000, 0));
+                        automat.dodajNagrode(-200);
+                        automat.dodajNagrode(0);
+                        automat.dodajNagrode(3000);
+                        automat.dodajNagrode(0);
+                        automat.dodajNagrode(-1000);
                         break;
                     case 5:
-                        automat.dodajNagrode(new Nagroda(500, 80));
-                        automat.dodajNagrode(new Nagroda(-1000, 20));
-
-                        automat.dodajNagrode(new Nagroda(-1500, 0));
-                        automat.dodajNagrode(new Nagroda(-100, 0));
-                        automat.dodajNagrode(new Nagroda(3000, 0));
+                        automat.dodajNagrode(500);
+                        automat.dodajNagrode(-1000);
+                        automat.dodajNagrode(-1500);
+                        automat.dodajNagrode(-100);
+                        automat.dodajNagrode(3000);
                         break;
                 }
-                automat.ustalZakresyNagrod();
                 Automaty[i] = automat;
             }
         }

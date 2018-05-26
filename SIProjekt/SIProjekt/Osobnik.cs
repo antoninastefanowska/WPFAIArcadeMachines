@@ -6,62 +6,58 @@ using System.Threading.Tasks;
 
 namespace SIProjekt
 {
-    public class Osobnik
+    public class Osobnik : IComparable<Osobnik>
     {
-        public int LiczbaRund { get; set; }
-        public Automat[] Chromosom { get; set; } /* chromosom jest sekwencją automatów, na których się gra */
-        public int Prawdopodobienstwo { get; set; } /* prawdopodobieństwo włączenia osobnika do populacji (chyba niepotrzebne?) */
+        public Automat[] Chromosom { get; set; } /* chromosom jest sekwencją automatów */
         public int Przystosowanie { get; set; } /* przystosowanie jest równe sumie wygranej na automatach zgodnie z sekwencją w chromosomie */
 
         private Random rand;
 
         public Osobnik()
         {
+
             rand = new Random();
-            LiczbaRund = DaneWejsciowe.Instancja.LiczbaRund;
-            Chromosom = new Automat[LiczbaRund];
+            Chromosom = new Automat[DaneWejsciowe.Instancja.LiczbaRund];
             Przystosowanie = 0;
-            Prawdopodobienstwo = 0;
         }
 
-        public Osobnik(int n)
+        /* funkcja do porównań względem przystosowania */
+        public int CompareTo(Osobnik other)
         {
-            rand = new Random();
-            LiczbaRund = DaneWejsciowe.Instancja.LiczbaRund;
-            Chromosom = new Automat[LiczbaRund];
-            for (int i = 0; i < LiczbaRund; i++)
-                Chromosom[i] = DaneWejsciowe.Instancja.Automaty[n];
-            wyliczPrzystosowanie();
-            Prawdopodobienstwo = 0;
+            if (this.Przystosowanie == other.Przystosowanie)
+                return 0;
+            else if (this.Przystosowanie > other.Przystosowanie)
+                return 1;
+            else return -1;
         }
 
         /* generuje losowy chromosom */
         public void losujChromosom()
         {
-            for (int i = 0; i < LiczbaRund; i++)
-                Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(DaneWejsciowe.Instancja.LiczbaAutomatow)];
+            int n = DaneWejsciowe.Instancja.LiczbaRund, k = DaneWejsciowe.Instancja.LiczbaAutomatow;
+            for (int i = 0; i < n; i++)
+                Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(k)];
             wyliczPrzystosowanie();
         }
         
+        /* gra po kolei na każdym automacie według sekwencji */
         public void wyliczPrzystosowanie()
         {
-            int suma = 0;
-            for (int i = 0; i < LiczbaRund; i++)
-            {
-                if (Chromosom[i] == null) Console.WriteLine("null: " + i.ToString());
+            int suma = 0, n = DaneWejsciowe.Instancja.LiczbaRund;
+            for (int i = 0; i < n; i++)
                 suma += Chromosom[i].zagraj();
-            }
             foreach (Automat automat in Chromosom)
-                automat.NumerNagrody = 0;
+                automat.NumerAktualnejNagrody = 0; // zresetowanie stanu automatów
             Przystosowanie = suma;
         }
 
         public override string ToString()
         {
+            int n = DaneWejsciowe.Instancja.LiczbaRund;
             string s = "";
-            for (int i = 0; i < LiczbaRund; i++)
+            for (int i = 0; i < n; i++)
                 s += Chromosom[i].ID.ToString() + ' ';
-            s += "- " + Przystosowanie.ToString() + ' ' + Prawdopodobienstwo.ToString();
+            s += "- " + Przystosowanie.ToString();
             return s;
         }
     }

@@ -9,58 +9,28 @@ namespace SIProjekt
     public class Automat
     {
         public int ID { get; set; }
-        public List<Nagroda> Nagrody { get; set; }
-        public int OstatniaWygrana { get; set; }
-        public int NumerNagrody { get; set; }
-
-        private Random rand;
+        public List<int> Nagrody { get; set; }
+        public int NumerAktualnejNagrody { get; set; }
         
         public Automat(int id)
         {
-            rand = new Random();
-            Nagrody = new List<Nagroda>();
+            Nagrody = new List<int>();
             ID = id;
-            OstatniaWygrana = 0;
-            NumerNagrody = 0;
+            NumerAktualnejNagrody = 0;
         }
 
-        public void dodajNagrode(Nagroda nagroda)
+        public void dodajNagrode(int nagroda)
         {
             Nagrody.Add(nagroda);
         }
 
-        /* ustala zakresy do losowania nagród */
-        public void ustalZakresyNagrod()
-        {
-            int zakres1 = 0, zakres2 = 0;
-            foreach (Nagroda nagroda in Nagrody)
-            {
-                zakres2 += nagroda.Prawdopodobienstwo;
-                nagroda.Zakres1 = zakres1;
-                nagroda.Zakres2 = zakres2;
-                zakres1 += nagroda.Prawdopodobienstwo;
-            }
-        }
-
         /* zwraca wartość wygranej */
-        /*
         public int zagraj()
         {
-            int los = rand.Next(100);
-            foreach (Nagroda nagroda in Nagrody)
-            {
-                if (los >= nagroda.Zakres1 && los < nagroda.Zakres2)
-                {
-                    OstatniaWygrana = nagroda.Wartosc;
-                    return nagroda.Wartosc;
-                }
-            }
-            return 0;
-        } */
-        public int zagraj()
-        {
-            OstatniaWygrana = NumerNagrody % Nagrody.Count;
-            return Nagrody[(NumerNagrody++) % Nagrody.Count].Wartosc;
+            int k;
+            k = NumerAktualnejNagrody;
+            NumerAktualnejNagrody = (NumerAktualnejNagrody + 1) % Nagrody.Count;
+            return Nagrody[k];
         }
     }
 }
