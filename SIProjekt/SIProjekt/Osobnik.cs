@@ -15,7 +15,6 @@ namespace SIProjekt
 
         public Osobnik()
         {
-
             rand = new Random();
             Chromosom = new Automat[DaneWejsciowe.Instancja.LiczbaRund];
             Przystosowanie = 0;
@@ -39,15 +38,14 @@ namespace SIProjekt
                 Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(k)];
             WyliczPrzystosowanie();
         }
-        
+
         /* gra po kolei na każdym automacie według sekwencji */
         public void WyliczPrzystosowanie()
         {
             int suma = 0, n = DaneWejsciowe.Instancja.LiczbaRund;
             for (int i = 0; i < n; i++)
                 suma += Chromosom[i].Zagraj();
-            foreach (Automat automat in Chromosom)
-                automat.NumerAktualnejNagrody = 0; // zresetowanie stanu automatów
+            DaneWejsciowe.Instancja.ResetujAutomaty();
             Przystosowanie = suma;
         }
 

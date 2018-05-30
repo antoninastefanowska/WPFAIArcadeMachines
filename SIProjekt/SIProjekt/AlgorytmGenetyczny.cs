@@ -15,12 +15,14 @@ namespace SIProjekt
         public int Elitaryzm { get; set; }
         public int PrawdopodobienstwoKrzyzowania { get; set; } /* w procentach */
         public int PrawdopodobienstwoMutacji { get; set; } /* w procentach */
+        public int NumerIteracji { get; set; }
 
         private Random rand;
 
         public AlgorytmGenetyczny(int rozmiarPopulacjiPoczatkowej, int maksymalnyRozmiarPopulacji, int elitaryzm, int rozmiarTurnieju, int prawdopodobienstwoKrzyzowania, int prawdopodobienstwoMutacji)
         {
             rand = new Random();
+            NumerIteracji = 0;
             RozmiarPopulacjiPoczatkowej = rozmiarPopulacjiPoczatkowej;
             RozmiarTurnieju = rozmiarTurnieju;
             MaksymalnyRozmiarPopulacji = maksymalnyRozmiarPopulacji;
@@ -40,6 +42,7 @@ namespace SIProjekt
         /* jeden przebieg iteracji algorytmu genetycznego */
         public void Iteracja()
         {
+            NumerIteracji++;
             List<Osobnik> nowaPopulacja = new List<Osobnik>(), populacjaRodzicielska;
             Osobnik nowyOsobnik;
 
@@ -52,7 +55,7 @@ namespace SIProjekt
                     {
                         if (i != j)
                         {
-                            nowyOsobnik = Krzyzowanie(populacjaRodzicielska.ElementAt(i), populacjaRodzicielska.ElementAt(j));
+                            nowyOsobnik = Krzyzowanie(populacjaRodzicielska[i], populacjaRodzicielska[j]);
                             nowaPopulacja.Add(nowyOsobnik);
                         }
                         if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
@@ -61,7 +64,7 @@ namespace SIProjekt
                 if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
                 if (Los(PrawdopodobienstwoMutacji))
                 {
-                    nowyOsobnik = Mutacja(populacjaRodzicielska.ElementAt(i));
+                    nowyOsobnik = Mutacja(populacjaRodzicielska[i]);
                     nowaPopulacja.Add(nowyOsobnik);
                 }
             }
@@ -72,7 +75,7 @@ namespace SIProjekt
                 populacjaRodzicielska.Remove(osobnik);
             }
             foreach (Osobnik osobnik in nowaPopulacja)
-                osobnik.WyliczPrzystosowanie();
+                if (osobnik != null) osobnik.WyliczPrzystosowanie();
             Populacja = nowaPopulacja;
         }
 
@@ -88,7 +91,7 @@ namespace SIProjekt
                     {
                         if (populacja.Count == 0) break;
                         int k = rand.Next(Populacja.Count);
-                        Osobnik osobnik = Populacja.ElementAt(k);
+                        Osobnik osobnik = Populacja[k];
                         turniej.Add(osobnik);
                         populacja.RemoveAt(k);
                     }

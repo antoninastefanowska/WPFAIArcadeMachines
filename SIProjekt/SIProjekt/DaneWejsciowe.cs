@@ -80,5 +80,11 @@ namespace SIProjekt
                 return singleton;
             }
         }
+
+        public void ResetujAutomaty()
+        {
+            foreach (Automat automat in Automaty)
+                automat.NumerAktualnejNagrody = 0;
+        }
     }
 }
