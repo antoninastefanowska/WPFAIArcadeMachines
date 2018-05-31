@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace SIProjekt
 {
@@ -10,13 +11,18 @@ namespace SIProjekt
     {
         public int ID { get; }
         public List<int> Nagrody { get; set; }
-        public int NumerAktualnejNagrody { get; set; }
+        public int NumerNastepnejNagrody { get; set; }
+        public Brush Kolor { get; set; }
+
+        private Random rand;
         
         public Automat(int id)
         {
             Nagrody = new List<int>();
             ID = id;
-            NumerAktualnejNagrody = 0;
+            NumerNastepnejNagrody = 0;
+            rand = new Random();
+            Kolor = new SolidColorBrush(Color.FromRgb((byte)rand.Next(100), (byte)rand.Next(100), (byte)rand.Next(100)));
         }
 
         public void DodajNagrode(int nagroda)
@@ -27,10 +33,14 @@ namespace SIProjekt
         /* zwraca wartość wygranej */
         public int Zagraj()
         {
-            int k;
-            k = NumerAktualnejNagrody;
-            NumerAktualnejNagrody = (NumerAktualnejNagrody + 1) % Nagrody.Count;
-            return Nagrody[k];
+            if (Nagrody.Count == 0) return 0;
+            else
+            {
+                int k;
+                k = NumerNastepnejNagrody;
+                NumerNastepnejNagrody = (NumerNastepnejNagrody + 1) % Nagrody.Count;
+                return Nagrody[k];
+            }
         }
     }
 }

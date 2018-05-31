@@ -24,7 +24,6 @@ namespace SIProjekt
             var mapper = Mappers.Xy<Point>();
             mapper.X(model => model.X);
             mapper.Y(model => model.Y);
-
             Charting.For<Point>(mapper); 
             Wartosci = new ChartValues<Point>();
 

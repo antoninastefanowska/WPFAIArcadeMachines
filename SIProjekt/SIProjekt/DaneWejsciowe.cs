@@ -10,14 +10,14 @@ namespace SIProjekt
     {
         public int LiczbaRund { get; set; } /* liczba możliwych zagrań na automatach */
         public int LiczbaAutomatow { get; set; }
-        public Automat[] Automaty { get; set; } /* wszystkie automaty */
+        public List<Automat> Automaty { get; set; } /* wszystkie automaty */
         
         public DaneWejsciowe()
         {
             /* przykładowe dane do testów (trzeba będzie zrobić wczytywanie z pliku) */
             LiczbaRund = 10;
             LiczbaAutomatow = 6;
-            Automaty = new Automat[LiczbaAutomatow];
+            Automaty = new List<Automat>();
             for (int i = 0; i < LiczbaAutomatow; i++)
             {
                 Automat automat = new Automat(i + 1);
@@ -66,7 +66,7 @@ namespace SIProjekt
                         automat.DodajNagrode(3000);
                         break;
                 }
-                Automaty[i] = automat;
+                Automaty.Add(automat);
             }
         }
 
@@ -84,7 +84,7 @@ namespace SIProjekt
         public void ResetujAutomaty()
         {
             foreach (Automat automat in Automaty)
-                automat.NumerAktualnejNagrody = 0;
+                automat.NumerNastepnejNagrody = 0;
         }
     }
 }

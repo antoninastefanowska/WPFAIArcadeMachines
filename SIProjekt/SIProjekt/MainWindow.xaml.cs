@@ -20,8 +20,8 @@ namespace SIProjekt
     public partial class MainWindow : Window
     {
 
-        RaportWindow oknoRaportu;
-        AlgorytmGenetyczny ag;
+        private RaportWindow oknoRaportu;
+        private AlgorytmGenetyczny ag;
 
         public MainWindow()
         {
