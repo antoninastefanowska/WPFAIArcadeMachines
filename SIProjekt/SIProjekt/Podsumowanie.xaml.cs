@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 
 namespace SIProjekt
 {
-    public partial class RaportWindow : Window
+    public partial class Podsumowanie : Window
     {
         public Wykres AktualnyWykres { get; set; }
 
-        public RaportWindow()
+        public Podsumowanie()
         {
             InitializeComponent();
         }

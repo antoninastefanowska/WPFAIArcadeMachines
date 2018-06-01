@@ -20,12 +20,52 @@ namespace SIProjekt
     public partial class MainWindow : Window
     {
 
-        private RaportWindow oknoRaportu;
+        private Podsumowanie oknoPodsumowanie;
         private AlgorytmGenetyczny ag;
+        public string Nazwa;
 
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Uruchom_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Podsumowanie_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Wczytaj_Click(object sender, RoutedEventArgs e)
+        {
+
+            Wczytaj dlg = new Wczytaj();
+            dlg.ShowDialog();
+            //Nazwa = nazwa pliku, z ktorego maja byc pobrane dane
+            Rundy_tb.Text = Nazwa;
+        }
+
+        private void Wyjdz_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void W_lewo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void W_prawo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Przejdz_do_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         /* do okna z raportem */
@@ -33,6 +73,7 @@ namespace SIProjekt
         {
             ag = new AlgorytmGenetyczny(5, 100, 1, 3, 80, 10);
 
+            /* to wszystko poniżej jest do debugowania (timer i okienko podsumowania otwiera się automatycznie) - później się usunie) */
             DispatcherTimer timer = new DispatcherTimer();
             timer.Tick += timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
@@ -44,17 +85,17 @@ namespace SIProjekt
                 ZaktualizujWykres(wykres); 
             */
 
-            oknoRaportu = new RaportWindow();
-            oknoRaportu.Owner = this;
-            oknoRaportu.AktualnyWykres = wykres;
-            oknoRaportu.Show();
+            oknoPodsumowanie = new Podsumowanie();
+            oknoPodsumowanie.Owner = this;
+            oknoPodsumowanie.AktualnyWykres = wykres;
+            oknoPodsumowanie.Show();
 
             timer.Start();
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            ZaktualizujWykres(oknoRaportu.AktualnyWykres);
+            ZaktualizujWykres(oknoPodsumowanie.AktualnyWykres);
         }
 
         private void ZaktualizujWykres(Wykres wykres)

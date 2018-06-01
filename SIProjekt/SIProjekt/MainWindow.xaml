@@ -5,7 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIProjekt"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Loaded="MainWindow_Loaded">
+        Title="Program" Height="350" Width="525" Loaded="MainWindow_Loaded">
     <Grid>
+        <Grid HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Stretch" Width="100">
+            <Label Content="Ilość rund:" HorizontalAlignment="Left" Margin="7,110,0,0" VerticalAlignment="Top"/>
+            <Label Content="Ilość automatów:" HorizontalAlignment="Left" Margin="7,160,0,0" VerticalAlignment="Top" FontSize="11"/>
+            <TextBox x:Name="Rundy_tb" HorizontalAlignment="Left" IsEnabled="False" Height="23" Margin="15,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50"/>
+            <TextBox x:Name="Automaty_tb" HorizontalAlignment="Left" IsEnabled="False" Height="23" Margin="15,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50"/>
+            <Button x:Name="Uruchom" Content="Uruchom" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="90" Height="30" Click="Uruchom_Click" />
+            <Button x:Name="Podsumowanie" Content="Podsumowanie" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="90" Height="30" Click="Podsumowanie_Click"/>
+            <Button x:Name="Wczytaj" Content="Wczytaj" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="90" Height="30" Click="Wczytaj_Click"/>
+            <Button x:Name="Wyjdz" Content="Wyjdź" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="90" Height="30" Click="Wyjdz_Click"/>
+        </Grid>
+        <Grid HorizontalAlignment="Stretch" Height="22" Margin="115,0,10,10" VerticalAlignment="Bottom">
+            <Button x:Name="W_lewo" Content="&lt;&lt;" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="40" Click="W_lewo_Click"/>
+            <Button x:Name="W_prawo" Content="&gt;&gt;" HorizontalAlignment="Right" Width="40" Click="W_prawo_Click"/>
+            <Grid HorizontalAlignment="Center" Width="140" VerticalAlignment="Stretch">
+                <Button x:Name="Przejdz_do" Content="Przejdź do" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="80" Click="Przejdz_do_Click"  />
+                <TextBox x:Name="Przejdz_do_tb" HorizontalAlignment="Right" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="40" />
+            </Grid>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="272" Margin="105,10,0,0" VerticalAlignment="Top" Width="402"/>
     </Grid>
 </Window>
