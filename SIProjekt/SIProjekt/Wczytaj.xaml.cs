@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace SIProjekt
 {
-    /// <summary>
-    /// Interaction logic for UstawDane.xaml
-    /// </summary>
     public partial class Wczytaj : Window
     {
         public Wczytaj()
@@ -26,8 +24,7 @@ namespace SIProjekt
 
         private void Wczytaj_ok_Click(object sender, RoutedEventArgs e)
         {
-            //tak np mozna sie dostac do tej wartosci tekstowej
-            ((MainWindow)Application.Current.MainWindow).Nazwa = Nazwa_pliku_tb.Text;
+            DialogResult = true;
             this.Close();
 
         }
@@ -35,6 +32,12 @@ namespace SIProjekt
         private void Wczytaj_anuluj_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Wartosc_tb_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9-]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

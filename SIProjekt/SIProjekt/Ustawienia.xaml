@@ -1,0 +1,30 @@
+﻿<Window x:Class="SIProjekt.Ustawienia"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIProjekt"
+        mc:Ignorable="d"
+        Title="Ustawienia" Height="250" Width="500">
+    <Grid Margin="0,0,0,-3" DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=AktualnyAlgorytm, Mode=TwoWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="46*"/>
+            <RowDefinition Height="14*"/>
+            <RowDefinition Height="97*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="Rozmiar_populacji" HorizontalAlignment="Stretch" Height="18" Margin="222,15,18,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Path=RozmiarPopulacjiPoczatkowej, Mode=TwoWay, UpdateSourceTrigger=Explicit}" PreviewTextInput="TextBox_PreviewTextInput" />
+        <Label Content="Rozmiar Populacji Poczatkowej:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="180" Height="29"/>
+        <TextBox x:Name="Max_rozmiar_populacji" HorizontalAlignment="Stretch" Height="20" Margin="222,38,18,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Path=MaksymalnyRozmiarPopulacji, Mode=TwoWay, UpdateSourceTrigger=Explicit}" PreviewTextInput="TextBox_PreviewTextInput" />
+        <Label Content="Maxymalny Rozmiar Populacji:" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top" Width="173" Height="29" Grid.RowSpan="2"/>
+        <Slider x:Name="Rozmiar_turnieju" HorizontalAlignment="Stretch" Height="20" Margin="222,6,18,0" VerticalAlignment="Top" Grid.Row="1" IsSnapToTickEnabled="True" Minimum="2" Maximum="10" IsSelectionRangeEnabled="True" TickFrequency="1" Grid.RowSpan="2" Value="{Binding Path=RozmiarTurnieju, Mode=TwoWay, UpdateSourceTrigger=Explicit}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+        <Label Content="Rozmiar Turnieju:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="116" Height="26" Grid.Row="1" Grid.RowSpan="2"/>
+        <Slider x:Name="Elitaryzm" HorizontalAlignment="Stretch" Height="20" Margin="222,13,18,0" VerticalAlignment="Top" Grid.Row="2" IsSnapToTickEnabled="True" Minimum="2" Maximum="10" IsSelectionRangeEnabled="True" TickFrequency="1" Value="{Binding Path=Elitaryzm, Mode=TwoWay, UpdateSourceTrigger=Explicit}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" />
+        <Label Content="Elitaryzm:" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="116" Height="26" Grid.Row="2"/>
+        <Slider x:Name="Prawd_krzyzowania" HorizontalAlignment="Stretch" Height="20" Margin="222,38,18,0" VerticalAlignment="Top" Grid.Row="2" IsSnapToTickEnabled="True" Minimum="0" Maximum="100" IsSelectionRangeEnabled="True" TickFrequency="1" Value="{Binding Path=PrawdopodobienstwoKrzyzowania, Mode=TwoWay, UpdateSourceTrigger=Explicit}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+        <Label Content="Prawdopodobienstwo Krzyżowania:" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Width="202" Height="29" Grid.Row="2"/>
+        <Slider x:Name="Prawd_mutacji" HorizontalAlignment="Stretch" Height="20" Margin="222,63,18,0" VerticalAlignment="Top" Grid.Row="2" IsSnapToTickEnabled="True" Minimum="0" Maximum="100" IsSelectionRangeEnabled="True" TickFrequency="1" Value="{Binding Path=PrawdopodobienstwoMutacji, Mode=TwoWay, UpdateSourceTrigger=Explicit}" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+        <Label Content="Prawdopodobienstwo Mutacji:" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Width="173" Height="29" Grid.Row="2"/>
+        <Button x:Name="Wczytaj_ok" Content="OK" HorizontalAlignment="Left" Height="25" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="50" Grid.Row="2" Click="Wczytaj_ok_Click"/>
+        <Button x:Name="Wczytaj_anuluj" Content="Anuluj" HorizontalAlignment="Right" Height="25" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="65" RenderTransformOrigin="2.453,0.393" Grid.Row="2" Click="Wczytaj_anuluj_Click"/>
+    </Grid>
+</Window>

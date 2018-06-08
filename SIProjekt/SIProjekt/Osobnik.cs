@@ -54,8 +54,9 @@ namespace SIProjekt
             int n = DaneWejsciowe.Instancja.LiczbaRund;
             string s = "";
             for (int i = 0; i < n; i++)
-                s += Chromosom[i].ID.ToString() + ' ';
-            s += "- " + Przystosowanie.ToString();
+                s += "Runda " + (i + 1).ToString() + ": Wybrano automat " + Chromosom[i].ID.ToString() + ", Wynik: " + Chromosom[i].Zagraj().ToString() + "\n";
+            DaneWejsciowe.Instancja.ResetujAutomaty();
+            s += "Suma: " + Przystosowanie.ToString() + "\n";
             return s;
         }
     }

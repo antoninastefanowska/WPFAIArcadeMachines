@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIProjekt"
         mc:Ignorable="d"
-        Title="Wczytaj" Height="130" Width="250">
+        Title="Dodaj nagrodę" Height="130" Width="300">
     <Grid>
-        <TextBox x:Name="Nazwa_pliku_tb" HorizontalAlignment="Stretch" Height="23" Margin="131,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" />
-        <Label Content="Nazwa pliku:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="116" Height="29"/>
+        <TextBox x:Name="Wartosc_tb" HorizontalAlignment="Stretch" Height="23" Margin="131,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewTextInput="Wartosc_tb_PreviewTextInput" />
+        <Label Content="Wartość nagrody:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="116" Height="29"/>
         <Button x:Name="Wczytaj_ok" Content="OK" HorizontalAlignment="Left" Height="25" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="50" Click="Wczytaj_ok_Click"/>
         <Button x:Name="Wczytaj_anuluj" Content="Anuluj" HorizontalAlignment="Right" Height="25" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="65" RenderTransformOrigin="2.453,0.393" Click="Wczytaj_anuluj_Click"/>
     </Grid>

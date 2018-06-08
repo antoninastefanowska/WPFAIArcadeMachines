@@ -28,15 +28,23 @@ namespace SIProjekt
             MaksymalnyRozmiarPopulacji = maksymalnyRozmiarPopulacji;
             Elitaryzm = elitaryzm;
             Populacja = new List<Osobnik>();
-            for (int i = 0; i < RozmiarPopulacjiPoczatkowej; i++)
+            PrawdopodobienstwoKrzyzowania = prawdopodobienstwoKrzyzowania;
+            PrawdopodobienstwoMutacji = prawdopodobienstwoMutacji;
+        }
+
+        public void GenerujPopulacjePoczatkowa()
+        {
+            int n = DaneWejsciowe.Instancja.LiczbaAutomatow, m = DaneWejsciowe.Instancja.LiczbaRund, k;
+            n = n ^ m;
+            if (n < RozmiarPopulacjiPoczatkowej) k = n;
+            else k = RozmiarPopulacjiPoczatkowej;
+            for (int i = 0; i < k; i++)
             {
                 Osobnik osobnik = new Osobnik();
                 do osobnik.LosujChromosom(); /* losuje populację początkową */
                 while (CzyIstnieje(osobnik, Populacja));
                 Populacja.Add(osobnik);
             }
-            PrawdopodobienstwoKrzyzowania = prawdopodobienstwoKrzyzowania;
-            PrawdopodobienstwoMutacji = prawdopodobienstwoMutacji;
         }
 
         /* jeden przebieg iteracji algorytmu genetycznego */
@@ -47,25 +55,28 @@ namespace SIProjekt
             Osobnik nowyOsobnik;
 
             populacjaRodzicielska = Turniej(RozmiarTurnieju, Populacja); // wyselekcjonowanie populacji rodzicielskiej metodą turniejową
-            for (int i = 0; i < populacjaRodzicielska.Count; i++)
+            while (nowaPopulacja.Count == 0)
             {
-                if (Los(PrawdopodobienstwoKrzyzowania))
+                for (int i = 0; i < populacjaRodzicielska.Count; i++)
                 {
-                    for (int j = 0; j < populacjaRodzicielska.Count; j++)
+                    if (Los(PrawdopodobienstwoKrzyzowania))
                     {
-                        if (i != j)
+                        for (int j = 0; j < populacjaRodzicielska.Count; j++)
                         {
-                            nowyOsobnik = Krzyzowanie(populacjaRodzicielska[i], populacjaRodzicielska[j]);
-                            nowaPopulacja.Add(nowyOsobnik);
+                            if (i != j)
+                            {
+                                nowyOsobnik = Krzyzowanie(populacjaRodzicielska[i], populacjaRodzicielska[j]);
+                                nowaPopulacja.Add(nowyOsobnik);
+                            }
+                            if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
                         }
-                        if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
                     }
-                }
-                if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
-                if (Los(PrawdopodobienstwoMutacji))
-                {
-                    nowyOsobnik = Mutacja(populacjaRodzicielska[i]);
-                    nowaPopulacja.Add(nowyOsobnik);
+                    if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
+                    if (Los(PrawdopodobienstwoMutacji))
+                    {
+                        nowyOsobnik = Mutacja(populacjaRodzicielska[i]);
+                        nowaPopulacja.Add(nowyOsobnik);
+                    }
                 }
             }
             for (int i = 0; i < Elitaryzm; i++)

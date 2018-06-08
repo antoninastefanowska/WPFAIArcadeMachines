@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SIProjekt"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="Podsumowanie" Height="600" Width="800">
+        Title="Wykres" Height="600" Width="800">
     <Grid>
         <Grid Margin="10" Grid.Row="1" DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=AktualnyWykres, Mode=OneWay}">
             <lvc:CartesianChart Series="{Binding Serie}">

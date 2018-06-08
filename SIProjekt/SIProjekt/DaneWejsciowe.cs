@@ -3,74 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace SIProjekt
 {
-    public class DaneWejsciowe
+    public class DaneWejsciowe : INotifyPropertyChanged
     {
         public int LiczbaRund { get; set; } /* liczba możliwych zagrań na automatach */
         public int LiczbaAutomatow { get; set; }
-        public List<Automat> Automaty { get; set; } /* wszystkie automaty */
+        public ObservableCollection<Automat> Automaty { get; set; } /* wszystkie automaty */
+        public int OstatniAutomatID { get; set; }
         
         public DaneWejsciowe()
         {
-            /* przykładowe dane do testów (trzeba będzie zrobić wczytywanie z pliku) */
+            Automaty = new ObservableCollection<Automat>();
             LiczbaRund = 10;
-            LiczbaAutomatow = 6;
-            Automaty = new List<Automat>();
+        }
+
+        public void WczytajDane(string sciezka)
+        {
+            Automaty.Clear();
+
+            /* pierwsza linia - liczba rund i liczba automatow */
+            StreamReader reader = new StreamReader(sciezka);
+
+            string[] mass = reader.ReadLine().Split(' ');
+            LiczbaRund = int.Parse(mass[0]);
+            LiczbaAutomatow = int.Parse(mass[1]);
+
+            //kolejne linie - nagrody dla automatow
             for (int i = 0; i < LiczbaAutomatow; i++)
             {
                 Automat automat = new Automat(i + 1);
-                switch (i)
+                string[] tmp = reader.ReadLine().Split(' ');
+                for (int j = 0; j < tmp.Length; j++)
                 {
-                    case 0:
-                        automat.DodajNagrode(1000);
-                        automat.DodajNagrode(100);
-                        automat.DodajNagrode(-300);
-                        automat.DodajNagrode(-500);
-                        automat.DodajNagrode(2000);
-                        break;
-                    case 1:
-                        automat.DodajNagrode(500);
-                        automat.DodajNagrode(300);
-                        automat.DodajNagrode(-700);
-                        automat.DodajNagrode(2000);
-                        automat.DodajNagrode(-1000);
-                        break;
-                    case 2:
-                        automat.DodajNagrode(1500);
-                        automat.DodajNagrode(-2000);
-                        automat.DodajNagrode(2000);
-                        automat.DodajNagrode(-3000);
-                        automat.DodajNagrode(0);
-                        break;
-                    case 3:
-                        automat.DodajNagrode(100);
-                        automat.DodajNagrode(500);
-                        automat.DodajNagrode(-500);
-                        automat.DodajNagrode(1000);
-                        automat.DodajNagrode(100);
-                        break;
-                    case 4:
-                        automat.DodajNagrode(-200);
-                        automat.DodajNagrode(0);
-                        automat.DodajNagrode(3000);
-                        automat.DodajNagrode(0);
-                        automat.DodajNagrode(-1000);
-                        break;
-                    case 5:
-                        automat.DodajNagrode(500);
-                        automat.DodajNagrode(-1000);
-                        automat.DodajNagrode(-1500);
-                        automat.DodajNagrode(-100);
-                        automat.DodajNagrode(3000);
-                        break;
+                    automat.DodajNagrode(int.Parse(tmp[j]));
                 }
                 Automaty.Add(automat);
             }
+
+            NotifyPropertyChanged("Automaty");
+            OstatniAutomatID = Automaty.Count;
         }
 
         private static DaneWejsciowe singleton = null;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
+
         public static DaneWejsciowe Instancja
         {
             get
