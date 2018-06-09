@@ -168,11 +168,18 @@ namespace SIProjekt
 
         private void Button_skokIteracji_Click(object sender, RoutedEventArgs e)
         {
-            int n = int.Parse(Skok_tb.Text);
-            for (int i = 0; i < n; i++)
-                Krok();
-            Textbox_przebieg.Text += "Iteracja: " + Algorytm.NumerIteracji.ToString() + "\n" + Algorytm.NajlepszyOsobnik().ToString() + "\n";
-            Textbox_przebieg.ScrollToEnd();
+            try
+            {
+                int n = int.Parse(Skok_tb.Text);
+                for (int i = 0; i < n; i++)
+                    Krok();
+                Textbox_przebieg.Text += "Iteracja: " + Algorytm.NumerIteracji.ToString() + "\n" + Algorytm.NajlepszyOsobnik().ToString() + "\n";
+                Textbox_przebieg.ScrollToEnd();
+            }
+            catch
+            {
+
+            }
         }
 
         private void Resetuj()
@@ -191,7 +198,14 @@ namespace SIProjekt
 
         private void Rundy_tb_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DaneWejsciowe.Instancja.LiczbaRund = int.Parse(Rundy_tb.Text);
+            try
+            {
+                DaneWejsciowe.Instancja.LiczbaRund = int.Parse(Rundy_tb.Text);
+            }
+            catch
+            {
+
+            }
         }
 
         private void Utworz_Algorytm_Click(object sender, RoutedEventArgs e)

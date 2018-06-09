@@ -65,8 +65,9 @@ namespace SIProjekt
                         {
                             if (i != j)
                             {
-                                nowyOsobnik = Krzyzowanie(populacjaRodzicielska[i], populacjaRodzicielska[j]);
-                                nowaPopulacja.Add(nowyOsobnik);
+                                Osobnik[] noweOsobniki = Krzyzowanie(populacjaRodzicielska[i], populacjaRodzicielska[j]);
+                                nowaPopulacja.Add(noweOsobniki[0]);
+                                nowaPopulacja.Add(noweOsobniki[1]);
                             }
                             if (nowaPopulacja.Count >= MaksymalnyRozmiarPopulacji - 1) break;
                         }
@@ -121,18 +122,26 @@ namespace SIProjekt
         }
 
         /* krzyżowanie jednostajne */
-        private Osobnik Krzyzowanie(Osobnik osobnik1, Osobnik osobnik2)
+        private Osobnik[] Krzyzowanie(Osobnik osobnik1, Osobnik osobnik2)
         {
-            Osobnik nowyOsobnik = new Osobnik();
+            Osobnik[] noweOsobniki = new Osobnik[2];
+            noweOsobniki[0] = new Osobnik();
+            noweOsobniki[1] = new Osobnik();
             int n = DaneWejsciowe.Instancja.LiczbaRund;
             for (int i = 0; i < n; i++)
             {
                 if (Los(50)) // wymiana genu nastąpi z prawdopodobieństwem 50%
-                    nowyOsobnik.Chromosom[i] = osobnik1.Chromosom[i];
+                {
+                    noweOsobniki[0].Chromosom[i] = osobnik1.Chromosom[i];
+                    noweOsobniki[1].Chromosom[i] = osobnik2.Chromosom[i];
+                }
                 else
-                    nowyOsobnik.Chromosom[i] = osobnik2.Chromosom[i];
+                {
+                    noweOsobniki[0].Chromosom[i] = osobnik2.Chromosom[i];
+                    noweOsobniki[1].Chromosom[i] = osobnik1.Chromosom[i];
+                }
             }
-            return nowyOsobnik;
+            return noweOsobniki;
         }
 
         private Osobnik Mutacja(Osobnik osobnik)
@@ -141,7 +150,7 @@ namespace SIProjekt
             int n = DaneWejsciowe.Instancja.LiczbaRund, k = DaneWejsciowe.Instancja.LiczbaAutomatow;
             for (int i = 0; i < n; i++)
             {
-                if (Los(50)) // zmutowanie danego genu nastąpi z prawdopodobieństwem 50%
+                if (Los(PrawdopodobienstwoMutacji)) // zmutowanie danego genu nastąpi z prawdopodobieństwem 50%
                     nowyOsobnik.Chromosom[i] = DaneWejsciowe.Instancja.Automaty[rand.Next(k)]; // gen zostaje podmieniony na wylosowany
                 else
                     nowyOsobnik.Chromosom[i] = osobnik.Chromosom[i];
